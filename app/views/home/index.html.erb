@@ -1,0 +1,69 @@
+<html>
+
+
+</head>
+
+
+
+<body background="https://aamboceanservice.blob.core.windows.net/oceanservice-prod/facts/ocean-human-health.jpg">
+
+<h1 class="myTitle">Hello world!</h1>
+<h3 id = "currentTemp"></h3>
+
+
+
+<div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(".myTitle").on('click', changeTitleColor)
+        
+          function changeTitleColor (){
+            var myTitle=$(".myTitle");
+            myTitle.css({"color": getRandomColor})
+          }
+             
+         function getRandomColor(){
+          return "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+         }
+
+        function updateTemperatureOnHomepage(temp){
+            var temperature = "The Current Temperature in SF is: " + temp; 
+            $("#currentTemp").html(temperature)
+        }
+        
+        const productSchoolLat = "37.796465";
+        const productSchoolLng = "-122.402492";
+        
+        $.ajax({
+          url: 'api/v1/weather',
+          type: 'GET',
+          data: { lat: productSchoolLat, lng: productSchoolLng } ,
+          contentType: 'application/json; charset=utf-8',
+          success: function (response) {
+              var currentTemp = response.currently.apparentTemperature
+              updateTemperatureOnHomepage(currentTemp)
+              console.log("current temp in SF is: ", currentTemp)
+              console.log(response);
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        });
+    
+        
+    </script>    
+    
+    
+
+</div>
+
+<!--/ jquery-->
+
+<!--// vanilla js-->
+<!--var newDiv = document.createElement('div');-->
+<!--newDiv.textContent = "Hello World!";-->
+<!--var elements = document.getElementsByClassName('page-title')-->
+<!--elements[0].appendChild(newDiv);-->
+
+</html>
+
